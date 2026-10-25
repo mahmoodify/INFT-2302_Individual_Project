@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>MyTicket</title>
+        <link rel="stylesheet" href="style.css">
+    </head>
+    <body>
+        <header class="app-header">
+            <h1>MyTicket</h1>
+        </header>
+
+        <main class="ticketing-layout">
+            <section class="map-section" aria-label="Venue Map Section">
+                <h2>Venue Map</h2>
+
+                <nav class="map-controls" aria-label="Venue Map">
+                    <button id="btn-zoom-in">Zoom In</button>
+                    <button id="btn-zoom-out">Zoom Out</button>
+                    <button id="btn-move-up">Move Up</button>
+                    <button id="btn-move-down">Move Down</button>
+                    <button id="btn-move-right">Move Right</button>
+                    <button id="btn-move-left">Move Left</button>
+                    <button id="btn-reset-view">Reset / Center</button>
+                </nav>
+
+                <div class="map-legend">
+                    <span class="legend-item"><span class="box-available"></span>Available</span>
+                    <span class="legend-item"><span class="box-inspected"></span>Inspected</span>
+                    <span class="legend-item"><span class="box in-cart"></span>In Cart</span>
+                    <span class="legend-item"><span class="box unavailable"></span>Unavailable</span>
+                </div>
+
+                <div class="map-viewport" id="map-viewport">
+                    <div class="map-container" id="map-viewport">
+
+                        <div class="stage-area">
+                          <div class="stage-shape">STAGE</div>
+                        </div>
+
+                        <div class="balcony-level">
+                            <div class="seating-block" id="zone-amphitheater" data-zone="Balcony Amphitheater">
+                                <!-- JS will inject balcony seat <button> elements here -->
+                            </div>
+                        </div>
+
+                        <div class="main-floor-seating">
+
+                            <div class="seating-row rear-row">
+                                <div class="seating-block" id="zone-rear-left" data-zone="Rear Left"></div>
+                                <div class="seating-block" id="zone-rear-center" data-zone="Rear Center"></div>
+                                <div class="seating-block" id="zone-rear-right" data-zone="Rear Right"></div>
+                            </div>
+                        
+
+                            <div class="aisle"></div>
+
+                            <div class="seating-row front-row">
+                                <div class="seating-block" id="zone-front-left" data-zone="Front Left"></div>
+                                <div class="seating-block" id="zone-front-center" data-zone="Front Center"></div>
+                                <div class="seating-block" id="zone-front-right" data-zone="Front Right"></div>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+
+            </section>
+        </main>
