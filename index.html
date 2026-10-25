@@ -33,7 +33,7 @@
                 </div>
 
                 <div class="map-viewport" id="map-viewport">
-                    <div class="map-container" id="map-viewport">
+                    <div class="map-container" id="map-container">
 
                         <div class="stage-area">
                           <div class="stage-shape">STAGE</div>
@@ -68,4 +68,49 @@
                 </div>
 
             </section>
+
+            <aside class="sidebar-section" aria-label="Ticketing Sidebar">
+
+                <div class="panel inspection-panel" id="inspection-panel">
+                    <h2>Seat Details</h2>
+
+                    <div class="seat-info-display" id="seat-info-display">
+                        <p class="placeholder">Click on an available seat on the map to inspect</p>
+
+                        <div class="active-seat-details" id="active-seat-details" hidden>
+                            <p><strong>Zone:</strong><span id="detail-zone">-</span></p>
+                            <p><strong>Row:</strong><span id="detail-row">-</span></p>
+                            <p><strong>Seat:</strong><span id="detail-seat">-</span></p>
+                            <p class="price-tag"><strong>Price:</strong> $<span id="detail-price">0.00</span></p>
+                        </div>
+                    </div>
+
+                    <button id="btn-add-to-cart" class="primary-action-btn" disabled>ADD TO CART</button>
+                </div>
+
+                <div class="panel cart-panel" id="cart-panel">
+                    <h2>Your Cart</h2>
+
+                    <div class="cart-items-container">
+                        <ul id="cart-items-list" class="cart-items-list">
+                            <li class="empty-cart-message">
+                                Your cart is empty.
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="cart-footer">
+                        <div class="total-row">
+                            <span>Total:</span>
+                            <span class="total-price">$<span id="cart-total">0.00</span></span>
+                        </div>
+
+                        <button id="btn-checkout" class="checkout-btn" disabled>Proceed to Checkout</button>
+                    </div>
+                </div>
+            </aside>
         </main>
+
+        <script src="app.js"></script>
+    </body>
+</html>
