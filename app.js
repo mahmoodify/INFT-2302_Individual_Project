@@ -76,9 +76,64 @@ function renderVenue() {
     });
 }
 
+let currentInspectedSeatId = null;
+function setupEventListeners() {
+    const venueContainer = document.getElementById('venue-container');
+    
+    venueContainer.addEventListener('click', (event) => {
+        // Only trigger if the clicked element has the 'seat' class
+        if (event.target.classList.contains('seat')) {
+            const seatId = event.target.dataset.seatId;
+            inspectSeat(seatId);
+        }
+    });
+}
+
+function inspectSeat(seatId) {
+    // finding the matching seat object
+    const seat = seatsData.find(s => s.id === seatId);
+    
+    if (!seat || seat.status === 'unavailable' || seat.status === 'in-cart') {
+        return; 
+    }
+
+    //revert back to available if a seat is already inspected
+    if (currentInspectedSeatId && currentInspectedSeatId !== seatId) {
+        const prevSeat = seatsData.find(s => s.id === currentInspectedSeatId);
+        
+        if (prevSeat && prevSeat.status === 'inspected') {
+            prevSeat.status = 'available';
+            document.getElementById(prevSeat.id).classList.remove('seat-inspected');
+        }
+    }
+
+    seat.status = 'inspected';
+    document.getElementById(seat.id).classList.add('seat-inspected');
+    
+    currentInspectedSeatId = seat.id;
+
+    updateInspectionPanel(seat);
+}
+
+function updateInspectionPanel(seat) {
+    document.querySelector('.placeholder').hidden = true;
+    document.getElementById('active-seat-details').hidden = false;
+
+    document.getElementById('detail-zone').textContent = seat.zoneName;
+    document.getElementById('detail-row').textContent = seat.row;
+    document.getElementById('detail-seat').textContent = seat.seatNum;
+    
+    document.getElementById('detail-price').textContent = seat.price.toFixed(2);
+
+    //add to cart button
+    const addToCartBtn = document.getElementById('btn-add-to-cart');
+    addToCartBtn.disabled = false;
+}
+
 function init() {
     initializeVenueData();
     renderVenue();
+    setupEventListeners();
 }
 
 init();
