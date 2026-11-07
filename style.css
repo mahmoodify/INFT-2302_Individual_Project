@@ -377,3 +377,19 @@ button:disabled {
     font-weight: 700;
     margin-bottom: 1rem;
 }
+@media (max-width: 1024px) {
+    .ticketing-layout {
+        flex-direction: column;
+        height: auto;
+        overflow-y: auto;
+    }
+    body {
+        overflow-y: auto;
+    }
+    .map-section {
+        min-height: 600px;
+    }
+    .sidebar-section {
+        width: 100%;
+    }
+}
