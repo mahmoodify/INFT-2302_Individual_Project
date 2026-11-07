@@ -5,13 +5,13 @@
     --color-text: #2b2b2b;
     --color-text-muted: #6c757d;
     --color-border: #e9ecef;
-    --color-wood: #eaddd3; /* Light wood from the auditorium walls */
+    --color-wood: #eaddd3;
     
     /* Seat States */
-    --seat-available: #d93829;   /* The vibrant red from the photos */
-    --seat-inspected: #f39c12;   /* Amber */
-    --seat-in-cart: #2ecc71;     /* Emerald Green */
-    --seat-unavailable: #ced4da; /* Faded Gray */
+    --seat-available: #d93829;
+    --seat-inspected: #f39c12;
+    --seat-in-cart: #2ecc71;
+    --seat-unavailable: #ced4da;
 
     /* UI Accents */
     --color-primary: #0056b3;
@@ -63,4 +63,103 @@ body {
     gap: 1.5rem;
     padding: 1.5rem;
     height: calc(100vh - 64px);
+}
+.map-section {
+    flex: 1;
+    background: var(--color-panel);
+    border-radius: 12px;
+    box-shadow: var(--shadow-md);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    position: relative;
+}
+
+.map-section h2 {
+    padding: 1.25rem 1.5rem 0;
+    font-size: 1.25rem;
+}
+
+
+.map-controls {
+    padding: 1rem 1.5rem;
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    border-bottom: 1px solid var(--color-border);
+}
+
+.map-controls button {
+    padding: 0.5rem 1rem;
+    border: 1px solid var(--color-border);
+    background: var(--color-panel);
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 500;
+    color: var(--color-text);
+    transition: var(--transition-fast);
+}
+
+.map-controls button:hover {
+    background: var(--color-bg);
+    border-color: #ccc;
+}
+
+
+.map-legend {
+    display: flex;
+    gap: 1.5rem;
+    padding: 1rem 1.5rem;
+    background: #fdfdfd;
+    border-bottom: 1px solid var(--color-border);
+    font-size: 0.9rem;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.legend-item span[class^="box"] {
+    width: 16px;
+    height: 16px;
+    border-radius: 4px;
+    display: inline-block;
+}
+
+.box-available { background-color: var(--seat-available); }
+.box-inspected { background-color: var(--seat-inspected); }
+.box-in-cart { background-color: var(--seat-in-cart); }
+.box-unavailable { background-color: var(--seat-unavailable); }
+
+
+.map-viewport {
+    flex: 1;
+    position: relative;
+    overflow: hidden;
+    background: var(--color-wood);
+    cursor: grab;
+}
+
+.map-viewport:active {
+    cursor: grabbing;
+}
+
+/*js will handle these transforms*/
+.map-container {
+    width: 1200px;
+    height: 800px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    /* Default centered state */
+    transform: translate(-50%, -50%) scale(1);
+    transform-origin: center center;
+    transition: transform var(--transition-smooth); /* Smooth zoom/pan */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 50px;
+    padding: 40px;
 }
