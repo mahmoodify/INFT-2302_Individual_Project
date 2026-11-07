@@ -160,7 +160,8 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 50px;
+    justify-content: center;
+    gap: 40px;
     padding: 40px;
 }
 .stage-area {
@@ -196,7 +197,7 @@ body {
     justify-content: center;
 }
 
-/* Simulate the amphitheater curve using subtle CSS rotation */
+/* curvy layout */
 #zone-front-left, #zone-rear-left {
     transform: rotate(12deg) translateY(-10px);
 }
@@ -245,8 +246,134 @@ body {
 }
 
 .seat.seat-in-cart { background-color: var(--seat-in-cart); }
+
 .seat.seat-unavailable {
     background-color: var(--seat-unavailable);
     cursor: not-allowed;
     box-shadow: none;
+}
+
+.sidebar-section {
+    width: 380px;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.panel {
+    background: var(--color-panel);
+    border-radius: 12px;
+    box-shadow: var(--shadow-md);
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+}
+
+.panel h2 {
+    font-size: 1.25rem;
+    margin-bottom: 1.25rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid var(--color-border);
+}
+
+/* Inspection Panel */
+.seat-info-display {
+    min-height: 120px;
+    margin-bottom: 1.5rem;
+    background: var(--color-bg);
+    padding: 1rem;
+    border-radius: 8px;
+}
+
+.placeholder {
+    color: var(--color-text-muted);
+    font-style: italic;
+    font-size: 0.95rem;
+}
+
+.active-seat-details p {
+    margin-bottom: 0.5rem;
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.95rem;
+}
+
+.price-tag {
+    margin-top: 1rem;
+    font-size: 1.1rem !important;
+    color: var(--seat-in-cart);
+}
+
+/* Cart Panel */
+.cart-panel {
+    flex: 1;
+    overflow: hidden;
+}
+
+.cart-items-container {
+    flex: 1;
+    overflow-y: auto;
+    margin-bottom: 1.5rem;
+}
+
+.cart-items-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.cart-items-list li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: var(--color-bg);
+    padding: 0.75rem 1rem;
+    border-radius: 6px;
+    font-size: 0.9rem;
+}
+
+.empty-cart-message {
+    background: transparent !important;
+    color: var(--color-text-muted);
+    justify-content: center !important;
+    font-style: italic;
+}
+
+/* Action Buttons */
+.primary-action-btn, .checkout-btn {
+    width: 100%;
+    padding: 0.875rem;
+    border: none;
+    border-radius: 6px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition-fast);
+    color: white;
+}
+
+.primary-action-btn { background-color: var(--color-primary); }
+.primary-action-btn:hover:not(:disabled) { background-color: var(--color-primary-hover); }
+
+.checkout-btn { background-color: var(--seat-in-cart); }
+.checkout-btn:hover:not(:disabled) { background-color: #27ae60; }
+
+button:disabled {
+    background-color: var(--seat-unavailable);
+    cursor: not-allowed;
+    opacity: 0.7;
+}
+
+.cart-footer {
+    border-top: 1px solid var(--color-border);
+    padding-top: 1.25rem;
+}
+
+.total-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
 }
