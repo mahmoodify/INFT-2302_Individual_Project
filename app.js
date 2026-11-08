@@ -98,6 +98,14 @@ function inspectSeat(seatId) {
     }
 
     //revert back to available if a seat is already inspected
+    if (currentInspectedSeatId === seatId) {
+        seat.status = 'available';
+        document.getElementById(seat.id).classList.remove('seat-inspected');
+        currentInspectedSeatId = null;
+        clearInspectionPanel();
+        return;
+    }
+
     if (currentInspectedSeatId && currentInspectedSeatId !== seatId) {
         const prevSeat = seatsData.find(s => s.id === currentInspectedSeatId);
         
@@ -115,6 +123,12 @@ function inspectSeat(seatId) {
     updateInspectionPanel(seat);
 }
 
+function clearInspectionPanel() {
+    document.querySelector('.placeholder').hidden = false;
+    document.getElementById('active-seat-details').hidden = true;
+    document.getElementById('btn-add-to-cart').disabled = true;
+}
+
 function updateInspectionPanel(seat) {
     document.querySelector('.placeholder').hidden = true;
     document.getElementById('active-seat-details').hidden = false;
@@ -130,10 +144,115 @@ function updateInspectionPanel(seat) {
     addToCartBtn.disabled = false;
 }
 
+let cart = [];
+
+document.getElementById('btn-add-to-cart').addEventListener('click', (e) => {
+    e.preventDefault();
+    if (currentInspectedSeatId) {
+        addToCart(currentInspectedSeatId);
+    }
+});
+
+function addToCart(seatId) {
+    const seat = seatsData.find(s => s.id === seatId);
+    
+    if (!seat || cart.some(item => item.id === seatId)) return;
+
+    seat.status = 'in-cart';
+    const seatBtn = document.getElementById(seat.id);
+    seatBtn.classList.remove('seat-inspected');
+    seatBtn.classList.add('seat-in-cart');
+
+    cart.push(seat);
+
+    currentInspectedSeatId = null;
+    clearInspectionPanel();
+
+    updateCartUI();
+    saveToStorage();
+}
+
+function removeFromCart(seatId) {
+    cart = cart.filter(item => item.id !== seatId);
+
+    const seat = seatsData.find(s => s.id === seatId);
+    if (seat) {
+        seat.status = 'available';
+        const seatBtn = document.getElementById(seat.id);
+        seatBtn.classList.remove('seat-in-cart');
+    }
+
+    updateCartUI();
+    saveToStorage();
+}
+
+function updateCartUI() {
+    const cartList = document.getElementById('cart-items-list');
+    const totalDisplay = document.getElementById('cart-total');
+    const checkoutBtn = document.getElementById('btn-checkout');
+    
+    //clearing the DOM list
+    cartList.innerHTML = '';
+
+    if (cart.length === 0) {
+        cartList.innerHTML = '<li class="empty-cart-message">Your cart is empty.</li>';
+        totalDisplay.textContent = '0.00';
+        checkoutBtn.disabled = true;
+        return;
+    }
+
+    cart.forEach(item => {
+        const li = document.createElement('li');
+        li.innerHTML = `
+            <span>${item.zoneName} (R${item.row}, S${item.seatNum})</span>
+            <span>$${item.price.toFixed(2)}</span>
+            <button class="remove-btn" data-id="${item.id}" style="background:none; border:none; color:red; cursor:pointer; font-weight:bold;">X</button>
+        `;
+        cartList.append(li);
+    });
+
+    const total = cart.reduce((sum, item) => sum + item.price, 0);
+    totalDisplay.textContent = total.toFixed(2);
+    checkoutBtn.disabled = false;
+
+    //removing buttons by event listeners
+    document.querySelectorAll('.remove-btn').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            removeFromCart(e.target.dataset.id);
+        });
+    });
+}
+
+function saveToStorage() {
+    //stringify the array to store in localStorage
+    localStorage.setItem('myTicketCart', JSON.stringify(cart));
+}
+
+function loadFromStorage() {
+    const savedCart = localStorage.getItem('myTicketCart');
+    if (savedCart) {
+        //parsing back to array
+        const parsedCart = JSON.parse(savedCart);
+        
+        parsedCart.forEach(savedItem => {
+            cart.push(savedItem);
+            
+            const seat = seatsData.find(s => s.id === savedItem.id);
+            if (seat) {
+                seat.status = 'in-cart';
+                const seatBtn = document.getElementById(seat.id);
+                if (seatBtn) seatBtn.classList.add('seat-in-cart');
+            }
+        });
+        updateCartUI();
+    }
+}
+
 function init() {
     initializeVenueData();
     renderVenue();
     setupEventListeners();
+    loadFromStorage();
 }
 
 init();
