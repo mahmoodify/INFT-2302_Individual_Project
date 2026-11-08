@@ -271,10 +271,124 @@ function loadFromStorage() {
     }
 }
 
+const DEFAULT_SCALE = 0.65;
+const MIN_SCALE = 0.35;
+const MAX_SCALE = 1.8;
+const STEP_SCALE = 0.15;
+const STEP_PAN = 60;
+
+let currentScale = DEFAULT_SCALE;
+let currentPanX = 0;
+let currentPanY = 0;
+
+function applyMapTransform() {
+    const venueContainer = document.getElementById('venue-container');
+    if (!venueContainer) return;
+
+    venueContainer.style.transform = `translate(calc(-50% + ${currentPanX}px), calc(-50% + ${currentPanY}px)) scale(${currentScale})`;
+}
+
+function setupNavigationControls() {
+    //zoom In
+    document.getElementById('btn-zoom-in').addEventListener('click', () => {
+        if (currentScale < MAX_SCALE) {
+            currentScale = Math.min(MAX_SCALE, currentScale + STEP_SCALE);
+            applyMapTransform();
+        }
+    });
+
+    //zoom Out
+    document.getElementById('btn-zoom-out').addEventListener('click', () => {
+        if (currentScale > MIN_SCALE) {
+            currentScale = Math.max(MIN_SCALE, currentScale - STEP_SCALE);
+            applyMapTransform();
+        }
+    });
+
+    //move Up
+    document.getElementById('btn-move-up').addEventListener('click', () => {
+        currentPanY += STEP_PAN;
+        applyMapTransform();
+    });
+
+    //move Down
+    document.getElementById('btn-move-down').addEventListener('click', () => {
+        currentPanY -= STEP_PAN;
+        applyMapTransform();
+    });
+
+    //move Left
+    document.getElementById('btn-move-left').addEventListener('click', () => {
+        currentPanX += STEP_PAN;
+        applyMapTransform();
+    });
+
+    //move Right
+    document.getElementById('btn-move-right').addEventListener('click', () => {
+        currentPanX -= STEP_PAN;
+        applyMapTransform();
+    });
+
+    //reset/center View
+    document.getElementById('btn-reset-view').addEventListener('click', () => {
+        currentScale = DEFAULT_SCALE;
+        currentPanX = 0;
+        currentPanY = 0;
+        applyMapTransform();
+    });
+    //for bonus task, to initialize the function we call it here
+    setupMouseNavigation();
+}
+
+//the bonus part, mouse wheel zoom and other things
+function setupMouseNavigation() {
+    const viewport = document.getElementById('map-viewport');
+    if (!viewport) return;
+
+    let isDragging = false;
+    let startX = 0;
+    let startY = 0;
+
+    //Mouse Drag
+    viewport.addEventListener('mousedown', (e) => {
+        if (e.target.tagName.toLowerCase() === 'button') return;
+        isDragging = true;
+        startX = e.clientX - currentPanX;
+        startY = e.clientY - currentPanY;
+        viewport.style.cursor = 'grabbing';
+    });
+
+    window.addEventListener('mousemove', (e) => {
+        if (!isDragging) return;
+        currentPanX = e.clientX - startX;
+        currentPanY = e.clientY - startY;
+        applyMapTransform();
+    });
+
+    window.addEventListener('mouseup', () => {
+        if (isDragging) {
+            isDragging = false;
+            viewport.style.cursor = 'grab';
+        }
+    });
+
+    //wheel Zoom
+    viewport.addEventListener('wheel', (e) => {
+        e.preventDefault();
+        if (e.deltaY < 0) {
+            currentScale = Math.min(MAX_SCALE, currentScale + 0.08);
+        } else {
+            currentScale = Math.max(MIN_SCALE, currentScale - 0.08);
+        }
+        applyMapTransform();
+    }, { passive: false });
+}
+
 function init() {
     initializeVenueData();
     renderVenue();
     setupEventListeners();
+    setupNavigationControls();
     loadFromStorage();
 }
 

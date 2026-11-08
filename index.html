@@ -13,17 +13,7 @@
 
         <main class="ticketing-layout">
             <section class="map-section" aria-label="Venue Map Section">
-                <h2>Venue Map</h2>
-
-                <nav class="map-controls" aria-label="Venue Map">
-                    <button id="btn-zoom-in">Zoom In</button>
-                    <button id="btn-zoom-out">Zoom Out</button>
-                    <button id="btn-move-up">Move Up</button>
-                    <button id="btn-move-down">Move Down</button>
-                    <button id="btn-move-right">Move Right</button>
-                    <button id="btn-move-left">Move Left</button>
-                    <button id="btn-reset-view">Reset / Center</button>
-                </nav>
+                <h2>Venue: E Large Auditorium</h2>
 
                 <div class="map-legend">
                     <span class="legend-item"><span class="box-available"></span>Available</span>
@@ -33,12 +23,41 @@
                 </div>
 
                 <div class="map-viewport" id="map-viewport">
+                    <div class="map-ui-overlay">
+        
+                        <!--movements-->
+                        <div class="d-pad">
+                            <button id="btn-move-up" class="ui-btn up" aria-label="Move Up">
+                                <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+                            </button>
+                            <button id="btn-move-left" class="ui-btn left" aria-label="Move Left">
+                                <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+                            </button>
+                            <button id="btn-reset-view" class="ui-btn center-reset" aria-label="Reset View">
+                                <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none"><circle cx="12" cy="12" r="6"/></svg>
+                            </button>
+                            <button id="btn-move-right" class="ui-btn right" aria-label="Move Right">
+                                <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                            </button>
+                            <button id="btn-move-down" class="ui-btn down" aria-label="Move Down">
+                                <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M19 12l-7 7-7-7"/></svg>
+                            </button>
+                        </div>
+                        <!--zoom buttons-->
+                        <div class="zoom-pad">
+                            <button id="btn-zoom-in" class="ui-btn zoom" aria-label="Zoom In">
+                                <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                            </button>
+                            <div class="zoom-divider"></div>
+                            <button id="btn-zoom-out" class="ui-btn zoom" aria-label="Zoom Out">
+                                <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                            </button>
+                        </div>
+                    </div>
                     <div class="map-container" id="venue-container">
 
                         <div class="balcony-level">
-                            <div class="seating-block" id="zone-amphitheater" data-zone="Balcony Amphitheater">
-                                <!-- JS will inject balcony seat <button> elements here -->
-                            </div>
+                            <div class="seating-block" id="zone-amphitheater" data-zone="Balcony Amphitheater"><!-- JS will inject balcony seat <button> elements here --></div>
                         </div>
 
                         <div class="main-floor-seating">
