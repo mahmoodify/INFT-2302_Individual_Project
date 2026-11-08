@@ -264,7 +264,11 @@ function loadFromStorage() {
             if (seat) {
                 seat.status = 'in-cart';
                 const seatBtn = document.getElementById(seat.id);
-                if (seatBtn) seatBtn.classList.add('seat-in-cart');
+                if (seatBtn) {
+                    seatBtn.classList.remove('seat-unavailable');
+                    seatBtn.disabled = false;
+                    seatBtn.classList.add('seat-in-cart');
+                }
             }
         });
         updateCartUI();
@@ -383,6 +387,38 @@ function setupMouseNavigation() {
         applyMapTransform();
     }, { passive: false });
 }
+//checkout process
+function processCheckout() {
+    const totalAmount = document.getElementById('cart-total').textContent;
+    const ticketCount = cart.length;
+
+    cart.forEach(item => {
+        const seat = seatsData.find(s => s.id === item.id);
+        if (seat) {
+            seat.status = 'unavailable';
+            const seatBtn = document.getElementById(seat.id);
+            if (seatBtn) {
+                seatBtn.classList.remove('seat-in-cart', 'seat-inspected');
+                seatBtn.classList.add('seat-unavailable');
+                seatBtn.disabled = true;
+            }
+        }
+    });
+
+    cart = [];
+
+    updateCartUI();
+    saveToStorage();
+
+    alert(`Success! You have purchased ${ticketCount} ticket(s) for $${totalAmount}.`);
+}
+
+document.getElementById('btn-checkout').addEventListener('click', (e) => {
+    e.preventDefault();
+    if (cart.length > 0) {
+        processCheckout();
+    }
+});
 
 function init() {
     initializeVenueData();
