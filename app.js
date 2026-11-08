@@ -171,6 +171,29 @@ function addToCart(seatId) {
     updateCartUI();
     saveToStorage();
 }
+//removing the seats in the cart
+function clearAllCart() {
+    cart.forEach(item => {
+        const seat = seatsData.find(s => s.id === item.id);
+        if (seat) {
+            seat.status = 'available';
+            const seatBtn = document.getElementById(seat.id);
+            if (seatBtn) {
+                seatBtn.classList.remove('seat-in-cart');
+            }
+        }
+    });
+
+    cart = [];
+
+    updateCartUI();
+    saveToStorage();
+}
+
+document.getElementById('btn-clear-cart').addEventListener('click', (e) => {
+    e.preventDefault();
+    clearAllCart();
+});
 
 function removeFromCart(seatId) {
     cart = cart.filter(item => item.id !== seatId);
